@@ -1,5 +1,8 @@
 const User = require("../models/user.model");
 const { v4: uuid4 } = require("uuid");
+
+
+
 //! get all users
 const getAllUsers = async(req, res) => {
   try {
@@ -12,7 +15,8 @@ const getAllUsers = async(req, res) => {
 //! get one user
 const getOneUser = async(req, res) => {
   try {
-    const user = await User.findOne({id:req.params.id})
+    // findById;
+    const user = await User.findOne({ id: req.params.id });
     res.status(200).json(user)
   } catch (error) {
     res.status(500).json({message:error.message})
@@ -33,10 +37,10 @@ const createUser = async (req, res) => {
     res.status(500).send(error.message);
   }
 };
-// update user
+//! update user
 const updateUser = async(req, res) => {
   try {
-    const user =await User.findOne({id:req.params.id})
+    const user = await User.findOneAndUpdate({ id: req.params.id });
     user.name = req.body.name 
     user.age = Number(req.body.age)
    const updateUser= await user.save()
@@ -49,12 +53,13 @@ const updateUser = async(req, res) => {
 //! delete one user
 const deleteUser = async(req, res) => {
   try {
-    await User.deleteOne({id:req.params.id})
+    await User.findOneAndDelete({ id: req.params.id });
     res.status(200).json({message:'user is deleted '})
   } catch (error) {
     res.status(500).json({message:error.message})
   }
 };
+
 
 module.exports = {
   getAllUsers,
